@@ -137,12 +137,19 @@ section {
 @media (max-width: 768px) {
   .blog-title {
     font-size: 1.5rem;
+    text-align: justify;
+    text-align: center;
+    
+    
   }
 
   .blog-description {
     font-size: 1rem;
+    text-align: center;
+    text-align: justify;
   }
 }
+/* ---------------------------------------------------------for text align------------------------------ */
 /* imported */
 
 
