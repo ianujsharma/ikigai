@@ -2,22 +2,22 @@ gsap.registerPlugin(ScrollTrigger);
 
 window.onload = function () {
   // Name and title animation with fade and scale on scroll
-  gsap.fromTo(
-    ".name-title",
-    { opacity: 0, y: 30 },
-    {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: ".name-title",  // The element to trigger the animation
-        start: "top 80%", // Start when 80% of the element is in the viewport
-        end: "bottom 20%", // End when 20% of the element leaves the viewport
-        scrub: true, // Smooth scrolling effect
-      }
-    }
-  );
+  // gsap.fromTo(
+  //   ".name-title",
+  //   { opacity: 0, y: 30 },
+  //   {
+  //     opacity: 1,
+  //     y: 0,
+  //     duration: 1,
+  //     ease: "power2.out",
+  //     scrollTrigger: {
+  //       trigger: ".name-title",  // The element to trigger the animation
+  //       start: "top 80%", // Start when 80% of the element is in the viewport
+  //       end: "bottom 20%", // End when 20% of the element leaves the viewport
+  //       scrub: true, // Smooth scrolling effect
+  //     }
+  //   }
+  // );
 
   // Profile contact fade-in animation on scroll
   gsap.to(".profile-contact", {

@@ -131,6 +131,10 @@
         .header-strip {
           height: 120px;
         }
+        .home {
+          margin-top: 30%;
+          margin-bottom: 10%;
+        }
 
         .profile-pic {
           width: 100px;
