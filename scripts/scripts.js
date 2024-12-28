@@ -75,12 +75,12 @@ window.onload = function () {
   gsap.to(".skills-languages", {
     opacity: 1,
     duration: 1,
-    delay: 0.5,
+    delay: 0.4,
     ease: "power2.out",
     scrollTrigger: {
       trigger: ".skills-languages",
       start: "top 80%",
-      end: "bottom 20%",
+      end: "bottom 50%",
       scrub: true,
     }
   });
@@ -98,7 +98,7 @@ window.onload = function () {
       scrollTrigger: {
         trigger: ".skills ul", // Trigger when the list enters the viewport
         start: "top 80%",
-        end: "bottom 20%",
+        end: "bottom 50%",
         scrub: true,
       }
     }
@@ -117,28 +117,28 @@ window.onload = function () {
       delay: 1.2,
       scrollTrigger: {
         trigger: ".languages ul", // Trigger when the language list enters the viewport
-        start: "top 80%",
-        end: "bottom 20%",
+        start: "top 85%",
+        end: "bottom 50%",
         scrub: true,
       }
     }
   );
 
   // Resume list items animation with stagger on scroll
-  // gsap.from(".resume-list li", {
-  //   opacity: 1,
-  //   y: 30,
-  //   stagger: 0.2,
-  //   duration: 1,
-  //   delay: 3,
-  //   ease: "power2.out",
-  //   scrollTrigger: {
-  //     trigger: ".resume-list", // Trigger when the resume list enters the viewport
-  //     start: "top 80%",
-  //     end: "bottom 20%",
-  //     scrub: true,
-  //   }
-  // });
+  gsap.from(".resume-list li", {
+    opacity: 1,
+    y: 30,
+    stagger: 0.2,
+    duration: 1,
+    delay: 3,
+    ease: "power2.out",
+    // scrollTrigger: {
+    //   trigger: ".resume-list", // Trigger when the resume list enters the viewport
+    //   start: "top 80%",
+    //   end: "bottom 20%",
+    //   scrub: true,
+    // }
+  });
 };
 
 
