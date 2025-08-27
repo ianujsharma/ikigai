@@ -39,7 +39,7 @@ function toggleCanvas() {
 // Load canvas content from server - aligned with server response format
 async function loadCanvasFromServer() {
     try {
-        const response = await fetch('https://srv975554.hstgr.cloud:5000/canvas', {
+        const response = await fetch('https://srv975554.hstgr.cloud/canvas', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         });
@@ -133,7 +133,7 @@ async function confirmCopyToCanvas() {
 
     try {
         // Send only the action to server - no mode
-        const response = await fetch('https://srv975554.hstgr.cloud:5000/canvas', {
+        const response = await fetch('https://srv975554.hstgr.cloud/canvas', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -190,7 +190,7 @@ function clearCanvas() {
 
 async function clearCanvasOnServer() {
     try {
-        const response = await fetch('https://srv975554.hstgr.cloud:5000/canvas/clear', {
+        const response = await fetch('https://srv975554.hstgr.cloud/canvas/clear', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         });
@@ -285,7 +285,7 @@ async function exportCanvas() {
         
         if (shouldSaveToServer) {
             try {
-                const response = await fetch('https://srv975554.hstgr.cloud:5000/canvas/export', {
+                const response = await fetch('https://srv975554.hstgr.cloud/canvas/export', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -481,7 +481,7 @@ async function syncCanvasWithServer() {
     if (!canvasContent || !canvasMemory.currentSession.content) return false;
     
     try {
-        const response = await fetch('https://srv975554.hstgr.cloud:5000/canvas/sync', {
+        const response = await fetch('https://srv975554.hstgr.cloud/canvas/sync', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -624,7 +624,7 @@ window.canvasMemory = {
     // Status
     isServerAvailable: async () => {
         try {
-            const response = await fetch('https://srv975554.hstgr.cloud:5000/canvas', { method: 'GET' });
+            const response = await fetch('https://srv975554.hstgr.cloud/canvas', { method: 'GET' });
             return response.ok;
         } catch {
             return false;
