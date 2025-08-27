@@ -3,7 +3,7 @@
 
 async function loadChatHistory() {
     try {
-        const response = await fetch('http://srv975554.hstgr.cloud:5000/chats');
+        const response = await fetch('https://srv975554.hstgr.cloud:5000/chats');
         const data = await response.json();
         const savedChats = data.chats || [];
         
@@ -51,7 +51,7 @@ function saveChatToHistory() {
 
 async function loadChat(chatName) {
     try {
-        const response = await fetch(`http://srv975554.hstgr.cloud:5000/chat/${chatName}`);
+        const response = await fetch(`https://srv975554.hstgr.cloud:5000/chat/${chatName}`);
         const data = await response.json();
         
         if (data.conversation) {
@@ -76,7 +76,7 @@ async function renameChat(chatName, event) {
     currentChatId = chatName;
     
     try {
-        const response = await fetch(`http://srv975554.hstgr.cloud:5000/chat/${chatName}`);
+        const response = await fetch(`https://srv975554.hstgr.cloud:5000/chat/${chatName}`);
         const data = await response.json();
         
         chatModalTitle.textContent = 'Rename Chat';
@@ -122,7 +122,7 @@ async function handleChatModalAction() {
             return;
         }
         try {
-            const resp = await fetch(`http://srv975554.hstgr.cloud:5000/chat/${encodeURIComponent(currentChatId)}/rename`, {
+            const resp = await fetch(`https://srv975554.hstgr.cloud:5000/chat/${encodeURIComponent(currentChatId)}/rename`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title: newTitle })
@@ -145,7 +145,7 @@ async function handleChatModalAction() {
         
 
         try {
-            const resp = await fetch(`http://srv975554.hstgr.cloud:5000/chat/${encodeURIComponent(currentChatId)}`, {
+            const resp = await fetch(`https://srv975554.hstgr.cloud:5000/chat/${encodeURIComponent(currentChatId)}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             });
