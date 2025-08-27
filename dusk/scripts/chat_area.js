@@ -80,6 +80,7 @@ async function renameChat(chatName, event) {
         const data = await response.json();
         
         chatModalTitle.textContent = 'Rename Chat';
+        chatModalInput.placeholder = 'Write here';
         chatModalInput.value = data.title || '';
         chatModalActionBtn.textContent = 'Rename';
         chatModalActionBtn.classList.remove('danger');
