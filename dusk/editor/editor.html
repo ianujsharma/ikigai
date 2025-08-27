@@ -198,6 +198,7 @@
             initializeEditor();
         });
 
+
         async function initializeEditor() {
             updateConnectionStatus('connecting');
             setupEventListeners();
@@ -205,16 +206,174 @@
             try {
                 await checkServerConnection();
                 await loadDocuments();
-                await createNewDocument();
+                
+                // Only create new document if no documents exist
+                if (documents.length === 0) {
+                    await createNewDocument();
+                } else {
+                    // Load the most recently updated document
+                    const mostRecent = documents.sort((a, b) => 
+                        new Date(b.updated_at) - new Date(a.updated_at)
+                    )[0];
+                    await loadDocument(mostRecent.id);
+                }
+                
                 updateConnectionStatus('connected');
             } catch (error) {
                 console.error('Failed to initialize editor:', error);
                 updateConnectionStatus('disconnected');
-                // Continue with offline mode
+                
+                // In offline mode, show empty editor without creating document
+                editor.innerHTML = '<p>Start typing to create a new document...</p>';
                 updateStats();
                 updateOutline();
             }
         }
+
+
+        async function newDocument() {
+            if (!isConnected) {
+                showStatus('Cannot create document - not connected to server', 'error');
+                return;
+            }
+            
+            try {
+                showStatus('Creating new document...', 'saving');
+                
+                const response = await makeRequest(`${API_BASE_URL}/documents`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        title: 'Untitled Document'
+                    })
+                });
+                
+                if (response.success) {
+                    currentDocument = response.document;
+                    
+                    // Clear editor with welcome content for new document
+                    editor.innerHTML = `
+                        <h1>New Document</h1>
+                        <p>Start writing your content here...</p>
+                    `;
+                    
+                    document.getElementById('documentTitle').value = 'Untitled Document';
+                    document.getElementById('documentTitle').focus();
+                    document.getElementById('documentTitle').select();
+                    
+                    updateDocumentUI();
+                    updateStats();
+                    updateOutline();
+                    await loadDocuments();
+                    showStatus('New document created', 'saved');
+                } else {
+                    showStatus('Failed to create document', 'error');
+                }
+            } catch (error) {
+                console.error('Failed to create document:', error);
+                showStatus('Failed to create document', 'error');
+            }
+        }
+
+        async function createNewDocument() {
+            try {
+                const response = await makeRequest(`${API_BASE_URL}/documents`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        title: 'Untitled Document'
+                    })
+                });
+                
+                if (response.success) {
+                    currentDocument = response.document;
+                    
+                    // Set initial content for first-time users
+                    editor.innerHTML = `
+                        <h1>Welcome to Your Cloud Text Editor</h1>
+                        <p>Your documents are automatically saved to the server. Start writing and your work will be synced in real-time!</p>
+                        
+                        <h2>Features</h2>
+                        <ul>
+                            <li>Cloud storage with automatic saving</li>
+                            <li>Multiple document management</li>
+                            <li>Real-time document outline and navigation</li>
+                            <li>Server-side document search</li>
+                            <li>Export and sharing capabilities</li>
+                            <li>Distraction-free focus mode</li>
+                        </ul>
+
+                        <h2>Getting Started</h2>
+                        <p>Simply start typing to replace this content. Your document will be automatically saved to the server every few seconds.</p>
+                        
+                        <blockquote>
+                            "The art of writing is the art of discovering what you believe." - Gustave Flaubert
+                        </blockquote>
+
+                        <p>Happy writing!</p>
+                    `;
+                    
+                    updateDocumentUI();
+                    await loadDocuments();
+                }
+            } catch (error) {
+                console.error('Failed to create document:', error);
+                showStatus('Failed to create document', 'error');
+            }
+        }
+
+        // Helper function to check if user has documents
+        async function hasExistingDocuments() {
+            try {
+                const response = await makeRequest(`${API_BASE_URL}/documents`);
+                return response.success && response.documents.length > 0;
+            } catch (error) {
+                console.error('Failed to check existing documents:', error);
+                return false;
+            }
+        }
+
+
+        function showEmptyState() {
+            const list = document.getElementById('documentsList');
+            list.innerHTML = `
+                <div class="no-documents">
+                    <p>No documents yet</p>
+                    <button class="btn btn-primary" onclick="newDocument()" style="margin-top: 12px;">
+                        Create Your First Document
+                    </button>
+                </div>
+            `;
+        }
+
+
+        function updateDocumentsList() {
+            const list = document.getElementById('documentsList');
+            
+            if (documents.length === 0) {
+                showEmptyState();
+                return;
+            }
+
+            list.innerHTML = '';
+            documents.forEach(doc => {
+                const item = document.createElement('div');
+                item.className = `document-item ${currentDocument && currentDocument.id === doc.id ? 'active' : ''}`;
+                item.innerHTML = `
+                    <h4>${doc.title}</h4>
+                    <p>${doc.word_count} words</p>
+                    <div class="meta">
+                        Modified: ${new Date(doc.updated_at).toLocaleDateString()}
+                        <button onclick="deleteDocument('${doc.id}')" style="float: right; background: none; border: none; color: #ef4444; cursor: pointer; font-size: 12px;">Delete</button>
+                    </div>
+                `;
+                item.onclick = (e) => {
+                    if (e.target.tagName !== 'BUTTON') {
+                        loadDocument(doc.id);
+                    }
+                };
+                list.appendChild(item);
+            });
+        }
+
 
         function setupEventListeners() {
             editor.addEventListener('input', function() {
@@ -316,26 +475,7 @@
             }
         }
 
-        async function createNewDocument() {
-            try {
-                const response = await makeRequest(`${API_BASE_URL}/documents`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        title: 'Untitled Document'
-                    })
-                });
-                
-                if (response.success) {
-                    currentDocument = response.document;
-                    updateDocumentUI();
-                    await loadDocuments();
-                }
-            } catch (error) {
-                console.error('Failed to create document:', error);
-                showStatus('Failed to create document', 'error');
-            }
-        }
-
+    
         async function saveDocument() {
             if (!currentDocument || !isConnected) {
                 showStatus('Cannot save - not connected to server', 'error');
@@ -471,35 +611,6 @@
                 document.getElementById('docVersion').textContent = currentDocument.update;
                 document.getElementById('documentTitle').value = currentDocument.title;
             }
-        }
-
-        function updateDocumentsList() {
-            const list = document.getElementById('documentsList');
-            
-            if (documents.length === 0) {
-                list.innerHTML = '<div class="no-documents">No documents found</div>';
-                return;
-            }
-
-            list.innerHTML = '';
-            documents.forEach(doc => {
-                const item = document.createElement('div');
-                item.className = `document-item ${currentDocument && currentDocument.id === doc.id ? 'active' : ''}`;
-                item.innerHTML = `
-                    <h4>${doc.title}</h4>
-                    <p>${doc.word_count} words</p>
-                    <div class="meta">
-                        Modified: ${new Date(doc.updated_at).toLocaleDateString()}
-                        <button onclick="deleteDocument('${doc.id}')" style="float: right; background: none; border: none; color: #ef4444; cursor: pointer; font-size: 12px;">Delete</button>
-                    </div>
-                `;
-                item.onclick = (e) => {
-                    if (e.target.tagName !== 'BUTTON') {
-                        loadDocument(doc.id);
-                    }
-                };
-                list.appendChild(item);
-            });
         }
 
         function scheduleAutoSave() {
