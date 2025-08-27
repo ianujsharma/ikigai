@@ -1,319 +1,389 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Date? </title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <title>Dust</title>
+    <link rel="stylesheet" href = "dusk/styles/canvas.css">
+    <link rel="stylesheet" href = "dusk/styles/gallary.css">
+    <link rel="stylesheet" href = "dusk/styles/messages.css">
+    <link rel="stylesheet" href = "dusk/styles/sidebar.css">
+    <style>
+        /* Modern, minimalist base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-</head>
-<script>
-    // scripts.js
-    document.addEventListener('DOMContentLoaded', function() {
-        gsap.from(".left h1", {
-            duration: 2,
-            y: -50,
-            opacity: 0,
-            ease: "power2.out"
-        });
-        gsap.from(".left p", {
-            duration: 2,
-            x: 50,
-            opacity: 0,
-            delay: 0.5,
-            ease: "power2.out"
-        });
-        gsap.from(".subscribe-section", {
-            duration: 2,
-            x: -50,
-            opacity: 0,
-            delay: 1,
-            ease: "power2.out"
-        });
-        gsap.from(".milestone-image img", {
-            duration: 2,
-            scale: 1.2,
-            opacity: 0,
-            delay: 1.5,
-            ease: "power2.out"
-        });
-        gsap.from(".countdown", {
-            duration: 2,
-            y: 50,
-            opacity: 0,
-            delay: 2,
-            ease: "power2.out"
-        })
+        :root {
+            --bg-primary: #f9fafb;
+            --bg-secondary: #f3f4f6;
+            --bg-tertiary: #e5e7eb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --accent-color: #4f46e5;
+            --accent-hover: #4338ca;
+            --accent-light: #a9b4fc;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.08);
+            --message-gap: 16px;
+            --sidebar-width: 280px;
+            --canvas-width: 350px;
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --font-mono: 'Menlo', 'Monaco', 'Courier New', monospace;
+        }
 
-        // Countdown timer
-        const launchDate = new Date('2025-08-27:06:30:00Z').getTime(); // enter the date here
+        [data-theme="dark"] {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-tertiary: #0f3460;
+            --text-primary: #e6e6e6;
+            --text-secondary: #b8b8b8;
+            --border-color: #2a3a5e;
+            --accent-color: #7f5af0;
+            --accent-hover: #9370ff;
+            --accent-light: #a78bfa;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
 
-        const timer = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = launchDate - now;
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+            transition: var(--transition);
+            line-height: 1.6;
+        }
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        html {
+            scroll-behavior: smooth;
+        }
 
-            document.getElementById('countdown-timer').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        
+        .app-container {
+            display: flex;
+            height: 100vh;
+            position: relative;
+        }
 
-            if (distance < 0) {
-                clearInterval(timer);
-                document.getElementById('countdown-timer').innerHTML = 'EXPIRED';
+       
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
-        }, 1000);
-    });
-</script>
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+ 
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -100%;
+                width: 280px;
+                /*box-shadow: var(--shadow-lg);*/
+            }
+            
+            .sidebar.open {
+                left: 0;
+            }
 
-<body>
+            .main-content {
+                margin-left: 0;
+            }
 
-    <div class="container">
-        <div class="left">
-            <h1>Timer</h1>
-            <p>A new chapter begins on <strong>27th July 2025, 12:00 </strong></p>
-            <div class="subscribe-section">
-                <p>"No big promises - just a tool that works when you need it.  "  </p>
-                <div class="countdown">
-                    <h2>Countdown:</h2>
-                    <div id="countdown-timer"></div>
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .sidebar-header {
+                padding-top: 50px;
+            }
+
+            .sidebar-close-btn {
+                opacity: 1;
+                pointer-events: all;
+                background: rgba(0,0,0,0.2);
+                color: white;
+            }
+            
+            .sidebar-close-btn:hover {
+                transform: none;
+                background: rgba(0,0,0,0.3);
+            }
+
+            .canvas-panel {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .main-content.with-canvas {
+                margin-right: 0;
+            }
+        }
+        
+        
+    </style>
+  
+</head>
+
+<body data-theme="light">
+
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+        ☰
+    </button>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="app-name">Dust AI</div>
+                <button class="new-chat-btn" onclick="startNewChat()">
+                    <span>+</span> New Chat
+                </button>
+                <button class="sidebar-close-btn" onclick="toggleSidebar()">×</button>
+            </div>
+                
+            <div class="chat-history" id="chatHistory">
+                <!-- Chat history will be populated here -->
+            </div>
+
+            <div class="chat-modal" id="chatModal">
+                <div class="chat-modal-content">
+                    <div class="chat-modal-header">
+                        <h3 id="chatModalTitle">Rename Chat</h3>
+                        <button class="close-btn" onclick="closeChatModal()"> × </button>
+                    </div>
+                    <div class="chat-modal-body">
+                        <input type="text" id="chatModalInput" class="chat-modal-input" placeholder="Enter new chat name">
+                    </div>
+                    <div class="chat-modal-footer">
+                        <button class="modal-btn secondary" onclick="closeChatModal()">Cancel</button>
+                        <button class="modal-btn primary" id="chatModalActionBtn" onclick="handleChatModalAction()">Rename</button>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+ 		<button class="theme-toggle" onclick="loadCanvasPage()">
+                    <span id="canvas-icon"> 🍁</span>
+                    <span id="canvas-text">Canvas</span>
+                </button>
+
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <span id="theme-icon">🌙</span>
+                    <span id="theme-text">Dark Mode</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" id="mainContent">
+            <div class="chat-container" id="chatContainer">
+                <div class="empty-state">
+                    <div class="empty-icon">✨</div>
+                    <h2>Dust AI</h2>
+                    <p>Start a conversation by typing your message below. I can help with creative ideas, problem solving, and much more.</p>
+                </div>
+            </div>
+
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <textarea 
+                        class="input-box" 
+                        id="messageInput" 
+                        placeholder="Message Dust..."
+                        rows="1"
+                        onkeydown="handleKeyDown(event)"
+                        oninput="autoResizeInput(this)"
+                    ></textarea>
+                    <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="right">
-            <div class="milestone-image">
-                <img src="images/milestone.jpeg" alt="Milestone">
+
+        <!-- Canvas Panel -->
+        <div class="canvas-panel" id="canvasPanel">
+            <div class="canvas-header">
+                <div class="canvas-title">
+                    <div class="canvas-icon">📋</div>
+                    <span>Chat Canvas</span>
+                </div>
+                <button class="close-btn" onclick="toggleCanvas()">×</button>
+            </div>
+            
+            <div class="canvas-toolbar">
+                <button class="toolbar-btn" onclick="clearCanvas()">
+                    <span>🗑️</span> Clear
+                </button>
+                <button class="toolbar-btn" onclick="copyAllCanvas()">
+                    <span>📋</span> Copy All
+                </button>
+                <button class="toolbar-btn" onclick="exportCanvas()">
+                    <span>💾</span> Export
+                </button>
+            </div>
+
+            <div class="canvas-body">
+                <textarea 
+                    class="canvas-content" 
+                    id="canvasContent" 
+                    placeholder="Your collected chat content will appear here...
+Click 'Copy to Canvas' on any AI message to collect them here.
+This works like a Word document for organizing your chat content."
+
+                    spellcheck="false"
+                ></textarea>
+            </div>
+
+            <div class="canvas-footer">
+                <div class="canvas-info">
+                    <span id="collectedCount">0 messages</span> • 
+                    <span id="wordCount">0 words</span> • 
+                    <span id="charCount">0 chars</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toggle Canvas Button -->
+        <button class="toggle-canvas-btn" id="toggleCanvasBtn" onclick="toggleCanvas()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 5v2h6V5H9zm0 4v2h6V9H9zm0 4v2h6v-2H9zM5 5v2h2V5H5zm0 4v2h2V9H5zm0 4v2h2v-2H5z"/>
+            </svg>
+        </button>
+
+        <!-- Edit Modal -->
+        <div class="edit-modal" id="editModal">
+            <div class="edit-modal-content">
+                <div class="edit-modal-header">
+                    <div class="edit-modal-title">Edit Message</div>
+                    <button class="close-btn" onclick="closeEditModal()">×</button>
+                </div>
+                <div class="edit-modal-body">
+                    <textarea class="edit-textarea" id="editTextarea"></textarea>
+                </div>
+                <div class="edit-modal-footer">
+                    <button class="modal-btn secondary" onclick="closeEditModal()">Cancel</button>
+                    <button class="modal-btn primary" onclick="saveEditedMessage()">Save Changes</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copy to Canvas Search Box -->
+        <div class="copy-search-box" id="copySearchBox">
+            <div class="copy-search-header">Add to Canvas</div>
+            <div class="copy-search-body">
+                <input type="text" class="copy-search-input" id="copySearchInput" placeholder="Add a note (optional)">
+            </div>
+            <div class="copy-search-footer">
+                <button class="modal-btn secondary" onclick="closeCopySearchBox()">Cancel</button>
+                <button class="modal-btn primary" onclick="confirmCopyToCanvas()">Add to Canvas</button>
             </div>
         </div>
     </div>
 
-    <div class="geometric-shapes">
-        <div class="shape circle"></div>
-        <div class="shape rectangle"></div>
-        <div class="shape rounded-rectangle"></div>
-        <div class="shape rounded-rectangle-2"></div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script>
+        // Global state
+        let currentMessages = [];
+        let isTyping = false;
+        let currentEditingMessage = null;
+        let currentCopyingMessage = null;
+        let isCanvasOpen = false;
+        let activeChatId = 'default-chat';
+        let isSidebarOpen = false;
+        let currentChatAction = null;
+        let currentChatId = null;
 
+        // DOM Elements
+        const chatContainer = document.getElementById('chatContainer');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const canvasPanel = document.getElementById('canvasPanel');
+        const canvasContent = document.getElementById('canvasContent');
+        const mainContent = document.getElementById('mainContent');
+        const toggleCanvasBtn = document.getElementById('toggleCanvasBtn');
+        const editModal = document.getElementById('editModal');
+        const editTextarea = document.getElementById('editTextarea');
+        const copySearchBox = document.getElementById('copySearchBox');
+        const copySearchInput = document.getElementById('copySearchInput');
+        const chatHistory = document.getElementById('chatHistory');
+        const sidebar = document.querySelector('.sidebar');
+        const chatModal = document.getElementById('chatModal');
+        const chatModalInput = document.getElementById('chatModalInput');
+        const chatModalActionBtn = document.getElementById('chatModalActionBtn');
+        const chatModalTitle = document.getElementById('chatModalTitle');
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Convert CSS variables to RGB for alpha channel use
+            document.documentElement.style.setProperty('--bg-tertiary-rgb', hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--bg-tertiary')));
+            document.documentElement.style.setProperty('--bg-secondary-rgb', hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--bg-secondary')));
+            document.documentElement.style.setProperty('--accent-rgb', hexToRgb(getComputedStyle(document.documentElement).getPropertyValue('--accent-color')));
+            
+            loadTheme();
+            loadChatHistory();
+            
+        });
+        
+         // Start new chat
+            function startNewChat() {
+                if (currentMessages.length > 0 && !confirm('Start a new chat? Your current chat will be saved.')
+            ) {
+                    return;
+                }
+                activeChatId = 'chat-' + Date.now();
+                currentMessages = [];
+                renderMessages();
+                toggleSidebar();
+            }        
+        // I will make this in future  more ai driven , but not now
+        function processCanvasContent(chatText, searchText, note) {
+            let result = chatText 
+            if ( note) { 
+                result += `\n\n[Note: ${note}]`;
+            }
+            return result;
+        }
+        
+
+        
+    </script>
 </body>
-<style>
-    /* Reset and general styles */
-    
-    body {
-        margin: 0;
-        font-family: 'great vibes', sans-serif;/*great vibes*/
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        background-color: #fefbbb;
-        /* Baby pink background */
-        color: #333;
-        font-size: 140%;
-    }
-    /* Main content container */
-    
-    .container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 80%;
-        max-width: 1200px;
-        margin: auto;
-        padding: 20px;
-        flex-grow: 1;
-        text-align: center;
-    }
-    
-    .left,
-    .right {
-        flex: 1;
-        padding: 20px;
-    }
-    
-    .left h1 {
-        margin-top: 10px;
-        font-size: 3em;
-        color: #333;
-        text-shadow: 1px 1px 2px #fff;
-        padding-bottom: 10px;
-    }
-    
-    .left p {
-        padding-bottom: 20px;
-        font-size: 1.2em;
-        color: #333;
-    }
-    
-    .subscribe-section {
-        margin-top: 20px;
-        text-align: center;
-    }
-    
-    .subscribe-section p {
-        font-size: 1.2em;
-        color: #333;
-    }
-    /* Right section with image */
-    
-    .right {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-    }
-    
-    .milestone-image img {
-        max-width: 100%;
-        max-height: 100%;
-        width: auto;
-        height: auto;
-        border-radius: 10px;
-    }
-    /* Geometric shapes animation */
-    
-    .geometric-shapes {
-        pointer-events: none;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-    }
-    
-    .shape {
-        position: absolute;
-        background-color: rgba(255, 255, 255, 0.3);
-        animation: float 5s infinite ease-in-out;
-    }
-    
-    .circle {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        top: 10%;
-        left: 20%;
-    }
-    
-    .rectangle {
-        width: 150px;
-        height: 100px;
-        top: 40%;
-        left: 60%;
-        border-radius: 20px;
-    }
-    
-    .rounded-rectangle {
-        width: 200px;
-        height: 100px;
-        top: 70%;
-        left: 10%;
-        border-radius: 20px;
-    }
-    
-    .rounded-rectangle-2 {
-        width: 180px;
-        height: 90px;
-        top: 50%;
-        left: 30%;
-        border-radius: 15px;
-    }
-    
-    @keyframes float {
-        0% {
-            transform: translateY(0);
-        }
-        50% {
-            transform: translateY(-20px);
-        }
-        100% {
-            transform: translateY(0);
-        }
-    }
-    /* Responsive styles */
-    
-    @media (max-width: 768px) {
-        .rectangle {
-            width: 120px;
-            height: 80px;
-            top: 80%;
-            left: 80%;
-            border-radius: 20px;
-        }
-        .circle {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            top: 20%;
-            left: 10%;
-        }
-        .rounded-rectangle,
-        .rounded-rectangle-2 {
-            display: none;
-        }
-        .container {
-            flex-direction: column;
-            padding: 10px;
-            padding-top: 15%;
-        }
-        .left,
-        .right {
-            padding: 10px;
-        }
-        .right {
-            margin-top: 20px;
-            order: -1;
-            /* Move the image to the top on smaller screens */
-        }
-        .nav-links {
-            transform: translateX(100%);
-        }
-        .nav-links.active {
-            transform: translateX(0);
-        }
-    }
-    /* Countdown styles */
-    
-    .countdown {
-        text-align: center;
-        margin: 20px auto;
-        padding: 20px;
-    }
-    
-    .countdown h2 {
-        font-size: 2em;
-        color: #3c3333;
-        margin-bottom: 20px;
-    }
-    
-    #countdown-timer {
-        font-size: 2em;
-        color: #3c3333;
-    }
-    /* Responsive styles */
-    
-    @media (max-width: 768px) {
-        .container {
-            flex-direction: column;
-            padding: 10px;
-        }
-        .left,
-        .right {
-            padding: 10px;
-        }
-        .right {
-            margin-top: 20px;
-            order: -1;
-            /* Move the image to the top on smaller screens */
-        }
-        .nav-links {
-            transform: translateX(100%);
-        }
-        .nav-links.active {
-            transform: translateX(0);
-        }
-    }
-</style>
+
+<script src = "dusk/scripts/theme.js"></script>
+<!-- <script src = "scripts/books.js"></script> -->
+<script src = "dusk/scripts/chat_area.js"></script>
+<script src = "dusk/scripts/message.js"></script>
+<script src = "dusk/scripts/sidebar.js"></script>
+<script src = "dusk/scripts/canvas.js"></script>
+<script src = "dusk/scripts/fetch_llm.js"></script>
+<script src = "dusk/editor/load_editor.js"></script>
+<!-- the fetch_llm's order matter -->
+
 
 </html>
+
