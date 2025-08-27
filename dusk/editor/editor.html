@@ -171,10 +171,15 @@
             <!-- Link dialog will be dynamically created -->
         </div>
     </div>
+     <script>
+     const Server_ip = 'https://srv975554.hstgr.cloud';
+    //  const Server_ip = 'http://127.0.0.1:5000';
 
+     </script>
+     
     <script>
         // Configuration
-        const API_BASE_URL = 'https://srv975554.hstgr.cloud/editor/api';
+        const API_BASE_URL = Server_ip +'/editor/api';
         
         // Global state
         let editor = document.getElementById('editor');
@@ -985,6 +990,10 @@
                 e.returnValue = '';
             }
         });
+
+
     </script>
+     
 </body>
+
 </html>

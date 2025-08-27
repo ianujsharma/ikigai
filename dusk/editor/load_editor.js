@@ -34,7 +34,7 @@ function loadCanvasPage() {
                 cursor: pointer;
                 z-index: 1001;
             ">×</button>
-            <iframe id="canvas-iframe" src="dusk/editor/editor.html" style="
+            <iframe id="canvas-iframe" src="editor/editor.html" style="
                 width: 100%;
                 height: 100%;
                 border: none;

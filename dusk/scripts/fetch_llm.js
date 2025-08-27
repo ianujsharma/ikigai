@@ -113,7 +113,7 @@ function updateAssistantMessage(messageIndex, content) {
 // Send to your Flask backend
 async function sendToBackend(message) {
     try {
-        const response = await fetch('https://srv975554.hstgr.cloud/chat', {
+        const response = await fetch(Server_ip+'/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

@@ -247,7 +247,7 @@ async function likeMessage(btn) {
                             Array.from(messageElement.parentElement.children).indexOf(messageElement);
         
         try {
-            const response = await fetch(`https://srv975554.hstgr.cloud/chat/${activeChatId}/like`, {
+            const response = await fetch(Server_ip + `/chat/${activeChatId}/like`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message_index: messageIndex })
@@ -279,7 +279,7 @@ async function dislikeMessage(btn) {
                             Array.from(messageElement.parentElement.children).indexOf(messageElement);
         
         try {
-            const response = await fetch(`https://srv975554.hstgr.cloud/chat/${activeChatId}/dislike`, {
+            const response = await fetch(Server_ip + `/chat/${activeChatId}/dislike`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message_index: messageIndex })
@@ -312,7 +312,7 @@ async function retryMessage(btn) {
     btn.disabled = true;
     
     try {
-        const response = await fetch(`https://srv975554.hstgr.cloud/chat/${activeChatId}/regenerate`, {
+        const response = await fetch(Server_ip + `/chat/${activeChatId}/regenerate`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message_index: messageIndex })
@@ -406,7 +406,7 @@ async function saveMessageEdit(btn, messageIndex) {
     try {
         if (activeChatId) {
             // Send to server
-            const response = await fetch(`https://srv975554.hstgr.cloud/chat/${activeChatId}/message/${messageIndex}`, {
+            const response = await fetch(Server_ip + `/chat/${activeChatId}/message/${messageIndex}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ content: newContent })
