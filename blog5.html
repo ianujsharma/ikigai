@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Options Pricing & Volatility Analysis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Raleway:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Lora:wght@400;700&family=Playfair+Display:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/blog_styles.css">
+  <style>
+    .blog-container {
+      max-width: 900px;
+      margin: 3rem auto;
+      background: white;
+      padding: 3rem;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    .blog-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      color: #2c3e50;
+      margin-bottom: 2rem;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .blog-image-div {
+      margin: 2.5rem 0;
+      text-align: center;
+    }
+
+    .blog-image {
+      width: 100%;
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .blog-image:hover {
+      transform: scale(1.02);
+    }
+
+    .blog-content h2 {
+      font-family: 'Playfair Display', serif;
+      color: #2c3e50;
+      margin: 2.5rem 0 1.5rem;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .blog-content h3 {
+      font-family: 'Lora', serif;
+      color: #34495e;
+      margin: 2rem 0 1rem;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .blog-content p {
+      margin: 1.5rem 0;
+      text-align: justify;
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    .blog-content ul {
+      margin: 1.5rem 0;
+      padding-left: 2.5rem;
+    }
+
+    .blog-content li {
+      margin: 0.8rem 0;
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    .content-image {
+      margin: 2.5rem 0;
+      text-align: center;
+    }
+
+    .download-button {
+      display: block;
+      margin: 3rem auto;
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+      text-align: center;
+      width: fit-content;
+    }
+
+    .download-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(102,126,234,0.6);
+      color: white;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">Anuj Sharma</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#projects">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="all_blog">Blogs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+  </nav>
+
+  <!-- Page-Specific Sidebar Navigation -->
+  <div class="page-sidebar">
+    <a href="#home">Home</a>
+    <a href="#intro">Introduction</a>
+    <a href="#blackscholes">Black-Scholes</a>
+    <a href="#volatility">Volatility</a>
+    <a href="#volume">Volume</a>
+    <a href="#files">Files</a>
+  </div> 
+
+  <!-- Blog Content -->
+  <div id="home" class="blog-container">
+    <h1 class="blog-title">Options Pricing & Implied Volatility Analysis</h1>
+    <div class="blog-image-div"><img src="blog/blog5/Smile.png" alt="Volatility Smile" class="blog-image"></div>
+    <div class="blog-content">
+      <h2 id="intro">Introduction</h2>
+      <p>Options pricing lies at the heart of modern financial derivatives trading. This project implements the Black-Scholes model for European options and calculates implied volatility using live market data from NSE India's Nifty 50 options.</p>
+
+      <h2 id="blackscholes">The Black-Scholes Model</h2>
+      <p>The Black-Scholes model, developed by Fischer Black, Myron Scholes, and Robert Merton, revolutionized options pricing by providing a mathematical framework to calculate the fair value of European options. The model assumes markets are efficient, volatility is constant, and returns follow a log-normal distribution.</p>
+      
+      <h3>Core Components</h3>
+      <p>The model calculates option prices using five key inputs: current stock price, strike price, time to expiration, risk-free interest rate, and volatility. The implementation uses the cumulative distribution function of the standard normal distribution to determine the probability-weighted payoffs.</p>
+
+      <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #667eea; margin: 1.5rem 0; font-family: 'Courier New', monospace; font-size: 0.95rem;">
+        d₁ = [ln(S/K) + (r + σ²/2)T] / (σ√T)<br>
+        d₂ = d₁ - σ√T<br>
+        Call Price = S·N(d₁) - K·e⁻ʳᵀ·N(d₂)<br>
+        Put Price = K·e⁻ʳᵀ·N(-d₂) - S·N(-d₁)
+      </div>
+
+      <p>Where S is the current stock price, K is the strike price, r is the risk-free rate, σ is volatility, T is time to expiration, and N() represents the cumulative standard normal distribution function.</p>
+
+      <h3>Calculating Implied Volatility</h3>
+      <p>Unlike forward pricing calculations, implied volatility must be derived through iterative methods. This project implements a bisection algorithm that reverse-engineers the Black-Scholes formula, searching for the volatility value that makes the theoretical price match the observed market price.</p>
+  
+      <div class="content-image"><img src="blog/blog5/Smile.png" alt="Put Volatility Smile" class="blog-image"></div>
+      
+      <h2 id="volatility">The Volatility Smile</h2>
+      <p>The volatility smile contradicts Black-Scholes' constant volatility assumption. Our analysis reveals several market dynamics:</p>
+      
+      <h3>Fear Premium in Puts</h3>
+      <p>Elevated implied volatility for out-of-the-money puts signals investor anxiety. When fear dominates, market participants pay premium prices for downside protection, driving put implied volatility above call volatility at equivalent distances from spot price.</p>
+      
+      <h3>Asymmetric Risk Perception</h3>
+      <p>The skew pattern indicates bearish positioning. Investors prioritize protection over speculation—put demand significantly exceeds call demand. This asymmetry typically emerges during market corrections or heightened uncertainty.</p>
+
+      <h3>Deep ITM Anomalies</h3>
+      <p>Interestingly, deep in-the-money puts exhibit elevated volatility rather than converging toward zero as theory suggests. This anomaly likely stems from illiquidity and wide bid-ask spreads rather than genuine pricing signals.</p>
+
+      <div class="content-image"><img src="blog/blog5/put_volume.png" alt="Put Volume Distribution" class="blog-image"></div>
+
+      <h2 id="volume">Volume Distribution Patterns</h2>
+      
+      <h3>Put Volume Concentration</h3>
+      <p>Volume clusters near at-the-money strikes where hedging activity concentrates. Deep ITM puts (strikes above 26,000) show minimal volume—buying a put at 28,000 when spot is 25,048 guarantees intrinsic value loss if assigned. Far OTM puts also see limited activity as they represent tail-risk scenarios with low probability.</p>
+
+      <div class="content-image"><img src="blog/blog5/call_volume.png" alt="Call Volume Distribution" class="blog-image"></div>
+
+      <h3>Call Volume Analysis</h3>
+      <p>Call volumes follow a t-distribution pattern, peaking near ATM strikes. However, absolute call volume remains substantially below put volume, reinforcing the defensive market posture. The market shows greater interest in limiting losses than capturing gains.</p>
+
+      <h3>Key Insights</h3>
+      <ul>
+        <li>Black-Scholes provides elegant pricing mechanics, but markets violate its core assumptions</li>
+        <li>Implied volatility surfaces reveal sentiment invisible in price data alone</li>
+        <li>Put-call volume disparity signals defensive positioning and bearish bias</li>
+        <li>Liquidity concentrates at ATM strikes, creating tighter spreads and better execution</li>
+        <li>Numerical methods like bisection successfully extract volatility from market prices</li>
+      </ul>
+
+      <p>This analysis demonstrates how theoretical models intersect with market reality, revealing the gap between academic assumptions and trader behavior in India's equity derivatives market.</p>
+    </div>
+    <a id="files" href="blog/blog5/Blackscholes.zip" download class="download-button">Download Project Files</a>
+  </div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.1/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.1/ScrollTrigger.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ 
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="images/404_cat_image.jpg" alt="Logo">
+      </div>
+      
+      <div class="footer-socials">
+        <ul>
+          <li><a href="https://linkedin.com/in/anujsharma7" target="_blank" class="linkedin">LinkedIn</a></li>
+          <li><a href="https://instagram.com/_ianuj_" target="_blank" class="instagram">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-credit">&copy; 2026 Anuj Sharma. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
